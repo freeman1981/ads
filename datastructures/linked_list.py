@@ -33,7 +33,7 @@ class UnorderedList:
         self.head = temp
 
     def __str__(self):
-        max_len = 3
+        max_len = 5
 
         current = self.head
         s = '['
@@ -79,10 +79,46 @@ class UnorderedList:
             current = current.next
 
 
-ul = UnorderedList()
+class OrderedList(UnorderedList):
+    def search(self, item):
+        current = self.head
+        while current is not None and item >= current.data:
+            if current.data == item:
+                return True
+            current = current.next
+        return False
+
+    def add(self, value):
+        previous = None
+        current = self.head
+        node = Node(value)
+
+        while current is not None and current.data < value:
+            previous = current
+            current = current.next
+
+        if previous is None:
+            self.head = node
+            return
+
+        tmp = previous.next
+        previous.next = node
+        node.next = tmp
+
+
+# ul = UnorderedList()
+# ul.add(1)
+# ul.add(3)
+# ul.add(2)
+# ul.remove(2)
+# print(ul)
+
+ul = OrderedList()
 ul.add(1)
 ul.add(3)
-ul.add(2)
-ul.remove(2)
+ul.add(5)
+ul.add(7)
+ul.add(8)
+# ul.remove(2)
 print(ul)
 
