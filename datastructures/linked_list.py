@@ -119,6 +119,8 @@ ul.add(3)
 ul.add(5)
 ul.add(7)
 ul.add(8)
+ul.add(2)
+ul.add(6)
 # ul.remove(2)
 print(ul)
 
