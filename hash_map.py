@@ -4,7 +4,30 @@ class HashTable:
         self.slots = [None] * self.size
         self.data = [None] * self.size
 
-    def put(self, key, data):
+    @staticmethod
+    def hash_function(key, size):
+        return key % size
+
+    @staticmethod
+    def re_hash(old_hash, size):
+        return (old_hash + 1) % size
+
+    def __getitem__(self, key):
+        start_slot = self.hash_function(key, len(self.slots))
+
+        data = None
+        position = start_slot
+        while self.slots[position] is not None:
+            if self.slots[position] == key:
+                data = self.data[position]
+                break
+            else:
+                position = self.re_hash(position, len(self.slots))
+                if position == start_slot:
+                    break
+        return data
+
+    def __setitem__(self, key, data):
         hash_value = self.hash_function(key, len(self.slots))
 
         if self.slots[hash_value] is None:
@@ -24,17 +47,12 @@ class HashTable:
                 else:
                     self.data[next_slot] = data  # replace
 
-    @staticmethod
-    def hash_function(key, size):
-        return key % size
-
-    @staticmethod
-    def re_hash(old_hash, size):
-        return (old_hash + 1) % size
-
 
 ht = HashTable()
-ht.put(1, 42)
-ht.put(2, 43)
-ht.put(23, 55)
+ht[1] = 42
+ht[2] = 43
+ht[23] = 55
+print(ht[1])
+print(ht[2])
+print(ht[23])
 assert 1
