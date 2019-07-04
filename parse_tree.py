@@ -1,4 +1,5 @@
 from datastructures.tree import BinaryTree
+import operator
 
 
 def build_parse_tree(exp: str) -> BinaryTree:
@@ -29,4 +30,53 @@ def build_parse_tree(exp: str) -> BinaryTree:
 
 
 pt = build_parse_tree("( ( 10 + 5 ) * 3 )")
-assert 1
+
+
+def evaluate(parse_tree: BinaryTree):
+    opers = {'+': operator.add, '-': operator.sub, '*': operator.mul, '/': operator.truediv}
+
+    left_ch = parse_tree.get_left_child()
+    right_ch = parse_tree.get_right_child()
+
+    if left_ch and right_ch:
+        fn = opers[parse_tree.get_root_val()]
+        return fn(evaluate(left_ch), evaluate(right_ch))
+    else:
+        return parse_tree.get_root_val()
+
+
+# ret = evaluate(pt)
+# assert 1
+
+
+def preorder(tree: BinaryTree):
+    if tree:
+        print(tree.get_root_val())
+        preorder(tree.get_left_child())
+        preorder(tree.get_right_child())
+
+
+def postorder(tree: BinaryTree):
+    if tree:
+        postorder(tree.get_left_child())
+        postorder(tree.get_right_child())
+        print(tree.get_root_val())
+
+
+def inorder(tree: BinaryTree):
+    if tree:
+        inorder(tree.get_left_child())
+        print(tree.get_root_val())
+        inorder(tree.get_right_child())
+
+
+preorder(pt)
+
+print('*' * 33)
+
+postorder(pt)
+
+print('*' * 33)
+
+inorder(pt)
+
